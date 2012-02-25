@@ -48,6 +48,21 @@ describe "String" do
     "what_the_fuck!!!!".html_attributify.should == "what-the-fuck"
     "builds/blah".html_attributify.should == "builds-blah"
   end
+
+  context "overlapping" do
+    it "should append if it doesn't overlap at the end" do
+      "Core i6".overlap("i5-2500k").should == "Core i6i5-2500k"      
+      "The day is good".overlap("was good").should == "The day is goodwas good"
+    end
+
+    it "should overlap if it overlaps at the end" do
+      "FX".overlap("FX-2500").should == "FX-2500"
+      "Core i5".overlap("i5-2500k 3.2 GHz").should == "Core i5-2500k 3.2 GHz"
+      "Today is really beautiful".overlap("is really beautiful!").should == "Today is really beautiful!"
+      "Just fuck off".overlap("fuck off").should == "Just fuck off"
+      "Oh whilly nil".overlap("whilly nilly").should == "Oh whilly nilly"
+    end
+  end
 end
 
 describe Symbol do
@@ -55,3 +70,62 @@ describe Symbol do
     :fuck_you_bitch.urlize.should == "fuck-you-bitch"
   end
 end
+
+# describe Hash do
+#   context "symbolizing keys" do
+#     def test_hash(hash) 
+#       hash.each do |key, value|
+#         key.should be_a(Symbol)
+#         test_hash(value) if value.is_a?(Hash)
+#       end
+#     end
+
+#     before do
+#       @simple_hash = {
+#         'foo' => "bar",
+#         'bitch' => "baz",
+#         'fuck' => "you"
+#       }
+
+#       @deep_hash = {
+#         'foo' => "bar",
+#         'bitch' => {
+#           'ass' => "hole",
+#           'fuck' => {
+#             'fuck' => "you",
+#             'shit' => "you",
+#             'showstopper' => {
+#               'fuckin' => 'eh',
+#               'btich' => 'fuck',
+#               'one' => {
+#                 'more' => "time"
+#               }
+#             }
+#           }
+#         },
+#         'fuck' => {
+#           'get' => "out",
+#           'of' => "here"
+#         }
+#       }
+#     end
+
+#     it "should symbolize keys" do
+#       hash = @simple_hash
+#       test_hash hash
+#       hash.should_not == @simple_hash
+#     end
+
+#     it "should symbolize keys recursively" do
+#       hash = @deep_hash.symbolize_keys(true)
+#       test_hash hash
+#       hash.should_not == @deep_hash
+#     end
+
+#     it "should symbolize keys recursively and be destructive" do
+#       hash = @deep_hash.symbolize_keys!(true)
+#       test_hash hash
+#       hash.should == @deep_hash
+#     end
+#   end
+# end

@@ -71,6 +71,30 @@ class String
   def html_attributify
     downcase.gsub(/[_\/\s]/, "-").gsub(/[^0-9a-z\-]+/, "")
   end
+
+  # Concat another string and overlap it if it does
+  def overlap(b)
+    a = self
+    a_len = self.length
+    b_len = b.length
+    n = nil
+
+    (0..a_len-1).each do |i|
+      j = i
+      k = 0
+
+      while j < a_len and k < b_len and a[j] == b[k]
+        j += 1
+        k += 1
+      end
+
+      n = k and break if j == a_len
+    end
+
+    n ||= 0
+
+    a + b[n..b_len-1]
+  end
 end
 
 # extend Symbol
