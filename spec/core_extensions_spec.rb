@@ -63,40 +63,6 @@ describe "String" do
       "Oh whilly nil".overlap("whilly nilly").should == "Oh whilly nilly"
     end
   end
-
-  context "formatting numeric string with only significant digits" do
-    it "should leave whole numbers alone" do
-      "300000".format_numeric.should == "300000"
-      "69".format_numeric.should == "69"
-      "0".format_numeric.should == "0"
-    end
-
-    it "should remove trailing zeros if it ends with zeros" do
-      "30.0".format_numeric.should == "30"
-      "30.000000".format_numeric.should == "30"
-      "30.3300000".format_numeric.should == "30.33"
-      "30.30300000".format_numeric.should == "30.303"
-    end
-
-    it "should format multiple zeros to one zero before decimal" do
-      "000000000000".format_numeric.should == "0"
-      "000000000000.00000000000000".format_numeric.should == "0"
-      "0.00000000000000".format_numeric.should == "0"
-    end
-
-    it "should not remove zeros after decimal if it ends with non-zero" do
-      "30.00000001".format_numeric.should == "30.00000001"
-      "2.210".format_numeric.should == "2.21"
-    end
-
-    it "should be able to limit the number of decimal places and round if it surpasses it" do
-      "30.000001".format_numeric(4).should == "30"
-      "30.00005".format_numeric(4).should == "30.0001"
-      "30.02".format_numeric(1).should == "30"
-      "30.05".format_numeric(1).should == "30.1"
-      "30.05".format_numeric(1).should == "30.1"
-    end
-  end
 end
 
 describe Symbol do
@@ -104,62 +70,3 @@ describe Symbol do
     :fuck_you_bitch.urlize.should == "fuck-you-bitch"
   end
 end
-
-# describe Hash do
-#   context "symbolizing keys" do
-#     def test_hash(hash) 
-#       hash.each do |key, value|
-#         key.should be_a(Symbol)
-#         test_hash(value) if value.is_a?(Hash)
-#       end
-#     end
-
-#     before do
-#       @simple_hash = {
-#         'foo' => "bar",
-#         'bitch' => "baz",
-#         'fuck' => "you"
-#       }
-
-#       @deep_hash = {
-#         'foo' => "bar",
-#         'bitch' => {
-#           'ass' => "hole",
-#           'fuck' => {
-#             'fuck' => "you",
-#             'shit' => "you",
-#             'showstopper' => {
-#               'fuckin' => 'eh',
-#               'btich' => 'fuck',
-#               'one' => {
-#                 'more' => "time"
-#               }
-#             }
-#           }
-#         },
-#         'fuck' => {
-#           'get' => "out",
-#           'of' => "here"
-#         }
-#       }
-#     end
-
-#     it "should symbolize keys" do
-#       hash = @simple_hash
-#       test_hash hash
-#       hash.should_not == @simple_hash
-#     end
-
-#     it "should symbolize keys recursively" do
-#       hash = @deep_hash.symbolize_keys(true)
-#       test_hash hash
-#       hash.should_not == @deep_hash
-#     end
-
-#     it "should symbolize keys recursively and be destructive" do
-#       hash = @deep_hash.symbolize_keys!(true)
-#       test_hash hash
-#       hash.should == @deep_hash
-#     end
-#   end
-# end
