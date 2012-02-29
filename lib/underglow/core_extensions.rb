@@ -1,10 +1,24 @@
 # Extend String class
 class String
-  def is_numeric?
+  def numeric?
     true if Float(self) rescue false
   end
 
-  def is_url?
+  def format_numeric(max_decimals = nil)
+    return self unless numeric?
+
+    str = self
+    str = "%0.#{max_decimals}f" % str unless max_decimals.nil? # shorten it if we have a limit
+
+    whole_number, decimals = str[/^([\d]+(?:\.[0-9]+)?)$/, 1].split(".")
+    decimals = decimals.sub(/0*$/, "") unless decimals.nil?   # remove any trailing zeros
+    decimal_places = decimals.nil? ? 0 : decimals.length
+    decimal_places = max_decimals if !max_decimals.nil? and decimal_places > max_decimals
+
+    "%0.#{decimal_places}f" % self
+  end
+
+  def url?
     return true if %r{(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?]))}.match(self)
 
     false
@@ -15,7 +29,7 @@ class String
   # If type is given (the standard type symbols like :integer, :string, etc), it will coerce to that type
   def coerce(type = nil)
     if type.nil?
-      if is_numeric?
+      if numeric?
         self.strip.match(/^\d+$/) ? self.to_i : self.to_f
       elsif self.match(/true/i)
         true

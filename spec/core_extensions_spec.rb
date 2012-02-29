@@ -27,14 +27,14 @@ describe "String" do
   end
 
   it "should be able to tell if the string is numeric" do
-    "1".is_numeric?.should == true
-    "1.22".is_numeric?.should == true
+    "1".should be_numeric
+    "1.22".should be_numeric
   end
 
   it "should be able to tell if string is a url" do
-    "http://google.com".is_url?.should == true
-    "https://192.168.1.200:3000/fucky".is_url?.should == true
-    "hahahah".is_url?.should == false
+    "http://google.com".url?.should == true
+    "https://192.168.1.200:3000/fucky".url?.should == true
+    "hahahah".url?.should == false
   end
 
   it "should initial captalize" do
@@ -61,6 +61,40 @@ describe "String" do
       "Today is really beautiful".overlap("is really beautiful!").should == "Today is really beautiful!"
       "Just fuck off".overlap("fuck off").should == "Just fuck off"
       "Oh whilly nil".overlap("whilly nilly").should == "Oh whilly nilly"
+    end
+  end
+
+  context "formatting numeric string with only significant digits" do
+    it "should leave whole numbers alone" do
+      "300000".format_numeric.should == "300000"
+      "69".format_numeric.should == "69"
+      "0".format_numeric.should == "0"
+    end
+
+    it "should remove trailing zeros if it ends with zeros" do
+      "30.0".format_numeric.should == "30"
+      "30.000000".format_numeric.should == "30"
+      "30.3300000".format_numeric.should == "30.33"
+      "30.30300000".format_numeric.should == "30.303"
+    end
+
+    it "should format multiple zeros to one zero before decimal" do
+      "000000000000".format_numeric.should == "0"
+      "000000000000.00000000000000".format_numeric.should == "0"
+      "0.00000000000000".format_numeric.should == "0"
+    end
+
+    it "should not remove zeros after decimal if it ends with non-zero" do
+      "30.00000001".format_numeric.should == "30.00000001"
+      "2.210".format_numeric.should == "2.21"
+    end
+
+    it "should be able to limit the number of decimal places and round if it surpasses it" do
+      "30.000001".format_numeric(4).should == "30"
+      "30.00005".format_numeric(4).should == "30.0001"
+      "30.02".format_numeric(1).should == "30"
+      "30.05".format_numeric(1).should == "30.1"
+      "30.05".format_numeric(1).should == "30.1"
     end
   end
 end

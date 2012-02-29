@@ -11,7 +11,7 @@ namespace :thin do
   desc "Start thin server"
   task :start do
     puts "Starting thin server..."
-    puts `bundle exec thin start -d`  # daemonize
+    puts `bundle exec thin start -d --pid tmp/pids/thin.pid`  # daemonize
   end
 
   desc "Restart thin server"
