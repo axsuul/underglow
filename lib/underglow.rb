@@ -9,6 +9,7 @@ module Underglow
         rake_tasks do
           load 'tasks/system.rake'
           load 'tasks/thin.rake'
+          load 'tasks/db.rake'
         end
       end
     end
