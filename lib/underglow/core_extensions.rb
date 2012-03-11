@@ -95,6 +95,13 @@ class String
 
     a + b[n..b_len-1]
   end
+
+  # Sanitizes a string and leaves behind only ascii characters, and gets rid of non-ascii and does not change original encoding
+  def ascii_only
+    original_encoding = self.encoding
+    encode!("US-ASCII", invalid: :replace, undef: :replace, replace: "")
+    encode!(original_encoding.name)
+  end
 end
 
 # extend Symbol

@@ -63,6 +63,20 @@ describe "String" do
       "Oh whilly nil".overlap("whilly nilly").should == "Oh whilly nilly"
     end
   end
+
+  context "sanitizing ascii only" do
+    it "should be able to get rid of non-ascii characters" do
+      "ATI Radeon\u2122 HD 4250 GPU".ascii_only.should == "ATI Radeon HD 4250 GPU"
+    end  
+
+    it "should not change the encoding" do
+      str = "ATI Radeon\u2122 HD 4250 GPU"
+
+      ascii = str.ascii_only
+      ascii.encoding.name.should == str.encoding.name
+    end
+  end
+  
 end
 
 describe Symbol do
