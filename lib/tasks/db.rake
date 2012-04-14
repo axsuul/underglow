@@ -32,4 +32,17 @@ namespace :db do
       end
     end
   end
+
+  desc "Recreates and migrates db for development and test"
+  task :fresh do
+    %w(
+      db:drop_connections
+      db:drop
+      db:create
+      db:migrate
+      db:test:load
+    ).each do |task|
+      Rake::Task[task]
+    end
+  end
 end
