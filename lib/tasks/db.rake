@@ -32,20 +32,12 @@ namespace :db do
       end
     end
   end
-
+  
   desc "Recreates and migrates db useful for development"
-  task fresh: %w(
-    db:drop_connections
-    db:drop
-    db:create
-    db:migrate
-    db:test:load
-  )
-
   task :fresh do
     # We need to keep track of initial RAILS_ENV because db:test:load changes RAILS_ENV to test
     initial_rails_env = ENV['RAILS_ENV']
-    
+
     Rake::Task['db:drop_connections'].invoke
     Rake::Task['db:drop'].invoke
     Rake::Task['db:create'].invoke
