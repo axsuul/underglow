@@ -1,5 +1,6 @@
 require "underglow/version"
-require 'underglow/core_extensions'
+require 'underglow/extensions/string'
+require 'underglow/extensions/symbol'
 
 module Underglow
   # Make gem's rake tasks available to Rails app

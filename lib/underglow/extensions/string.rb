@@ -1,4 +1,3 @@
-# Extend String class
 class String
   def numeric?
     true if Float(self) rescue false
@@ -102,11 +101,18 @@ class String
     encode!("US-ASCII", invalid: :replace, undef: :replace, replace: "")
     encode!(original_encoding.name)
   end
-end
 
-# extend Symbol
-class Symbol
-  def urlize
-    to_s.urlize
+  # Removes matched portion from string and returns matched data object
+  def extract!(regexp)
+    raise ArgumentError, "Must pass in a Regexp object!" unless regexp.is_a? Regexp
+
+    match = regexp.match(self)
+
+    if match
+      sub!(regexp, "")
+      return match
+    end
+
+    nil
   end
 end

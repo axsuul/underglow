@@ -79,11 +79,33 @@ describe "String" do
       str.encoding.name.should == original_encoding
     end
   end
-  
-end
 
-describe Symbol do
-  it "should urlize a symbol properly" do
-    :fuck_you_bitch.urlize.should == "fuck-you-bitch"
+  describe '#extract!' do
+    it "removes the match and returns match object" do
+      str = "What the fuck"
+      match = str.extract!(/the (fuck)/)
+      match.should be_a MatchData
+      match[0].should == "the fuck"
+      match[1].should == "fuck"
+
+      str.should == "What "
+    end
+
+    it "only removes the first match" do
+      str = "12345"
+      match = str.extract!(/\d/)
+      str.should == "2345"
+    end
+
+    it "removes nothing and returns nil if nothing is matched" do
+      str = "12345"
+      match = str.extract!(/[A-Z]+/)
+      match.should be_nil
+      str.should == "12345"
+    end
+
+    it "raises an argument error if not passed in a regexp" do
+      expect { "oh boy".extract!("1234") }.to raise_error ArgumentError
+    end
   end
 end
