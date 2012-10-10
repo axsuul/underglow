@@ -81,6 +81,8 @@ describe "String" do
   end
 
   describe '#extract!' do
+    let(:str) { "Hello World!" }
+
     it "removes the match and returns match object" do
       str = "What the fuck"
       match = str.extract!(/the (fuck)/)
@@ -106,6 +108,29 @@ describe "String" do
 
     it "raises an argument error if not passed in a regexp" do
       expect { "oh boy".extract!("1234") }.to raise_error ArgumentError
+    end
+
+    it "can accept a block with the match object passed to it if matched" do
+      moo = nil
+
+      str.extract!(/Hello/) do |match|
+        match.should be_a MatchData
+        moo = "what"
+      end
+
+      str.should == " World!"
+      moo.should == "what"
+    end
+
+    it "will not execute the block if nothing matched" do
+      moo = nil
+
+      str.extract!(/asdf/) do |match|
+        moo = "what"
+      end
+
+      str.should == "Hello World!"
+      moo.should be_nil
     end
   end
 end

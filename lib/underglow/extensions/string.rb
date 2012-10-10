@@ -103,14 +103,20 @@ class String
   end
 
   # Removes matched portion from string and returns matched data object
-  def extract!(regexp)
+  def extract!(regexp, &block)
     raise ArgumentError, "Must pass in a Regexp object!" unless regexp.is_a? Regexp
+
 
     match = regexp.match(self)
 
     if match
       sub!(regexp, "")
-      return match
+
+      if block_given?
+        block.call(match)
+      else
+        return match
+      end
     end
 
     nil
