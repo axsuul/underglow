@@ -6,8 +6,16 @@ Provides some luxury methods and extensions. I personally use this on all my pro
 
 Installation
 ============
-    
+
     gem install underglow
+
+Usage
+=====
+Some capistrano tasks are provided. To use them, require them within your `deploy.rb` file.
+
+```ruby
+require 'underglow/capistrano'
+```
 
 Testing
 =======
