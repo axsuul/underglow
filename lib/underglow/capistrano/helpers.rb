@@ -16,10 +16,6 @@ Capistrano::Configuration.instance.load do
   # Sends kill signal if process is running
   def kill(process, signal)
     pidfile_path = "#{shared_path}/pids/#{process}.pid"
-
-    if remote_file_exists?(pidfile_path)
-      pid = read_remote_file(pidfile_path).to_i
-      run "kill -#{signal} #{pid} > /dev/null 2>&1" # suppress errors
-    end
+    run "if [ -e #{pidfile_path} ]; then kill -#{signal} `cat #{pidfile_path}` > /dev/null 2>&1; fi"
   end
 end
