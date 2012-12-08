@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "underglow"
-  s.version = "0.0.9"
+  s.version = "0.0.91"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Hu"]
@@ -36,7 +36,8 @@ Gem::Specification.new do |s|
     "lib/underglow/version.rb",
     "spec/extensions/string_spec.rb",
     "spec/extensions/symbol_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "underglow.gemspec"
   ]
   s.homepage = "http://github.com/axsuul/underglow"
   s.licenses = ["MIT"]
