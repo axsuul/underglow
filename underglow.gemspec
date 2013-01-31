@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "underglow"
-  s.version = "0.0.92"
+  s.version = "0.0.93"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Hu"]
-  s.date = "2012-12-08"
+  s.date = "2013-01-31"
   s.description = "A library that makes life easier."
   s.email = "axsuul@gmail.com"
   s.extra_rdoc_files = [
@@ -25,8 +25,10 @@ Gem::Specification.new do |s|
     "lib/underglow.rb",
     "lib/underglow/capistrano.rb",
     "lib/underglow/capistrano/deploy.rb",
+    "lib/underglow/capistrano/deploy/db.rb",
+    "lib/underglow/capistrano/deploy/rake.rb",
+    "lib/underglow/capistrano/deploy/unicorn.rb",
     "lib/underglow/capistrano/helpers.rb",
-    "lib/underglow/capistrano/rake.rb",
     "lib/underglow/extensions/string.rb",
     "lib/underglow/extensions/symbol.rb",
     "lib/underglow/rails/environment.rb",
