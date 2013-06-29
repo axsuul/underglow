@@ -1,3 +1,3 @@
 module Underglow
-  VERSION = "0.0.94"
+  VERSION = "0.1.0"
 end
