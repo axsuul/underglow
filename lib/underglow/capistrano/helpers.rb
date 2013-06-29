@@ -4,6 +4,11 @@ Capistrano::Configuration.instance.load do
     set :rails_env, stage
   end
 
+  # Run remote command via SSH
+  def run_remote(command)
+    exec "ssh #{stage} -t 'source ~/.profile && #{command}'"
+  end
+
   # Can't use File.exists? because it'll check the local filesystem, not remote
   def remote_file_exists?(path)
     'true' == capture("if [ -e #{path} ]; then echo 'true'; fi").strip
