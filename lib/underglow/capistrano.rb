@@ -1,5 +1,6 @@
 require 'underglow/capistrano/helpers'
 require 'underglow/capistrano/deploy'
-require 'underglow/capistrano/deploy/rake'
 require 'underglow/capistrano/deploy/db'
+require 'underglow/capistrano/deploy/rails'
+require 'underglow/capistrano/deploy/rake'
 require 'underglow/capistrano/deploy/unicorn'
