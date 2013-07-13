@@ -1,4 +1,5 @@
 require "underglow/version"
+require 'underglow/extensions/array'
 require 'underglow/extensions/string'
 require 'underglow/extensions/symbol'
 
