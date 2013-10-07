@@ -30,4 +30,9 @@ Capistrano::Configuration.instance.load do
       end
     end
   end
+
+  # Give executable permissions to binstubs
+  after "bundle:install" do
+    run "chmod 775 -R #{release_path}/bin"
+  end
 end
