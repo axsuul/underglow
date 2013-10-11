@@ -14,5 +14,7 @@ Capistrano::Configuration.instance.load do
     task :tail, roles: :app do
       run_remote "cd #{current_path} && tail -f log/#{stage}.log"
     end
+
+    task c: :console
   end
 end
