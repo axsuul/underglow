@@ -22,9 +22,16 @@ namespace :db do
 
         FileUtils.rm(file)
       when 'postgresql'
-        ActiveRecord::Base.connection.select_all("select * from pg_stat_activity order by procpid;").each do |x|
+        # Detect PostgreSQL version
+        version = `psql --version`.match(/([0-9\.]+)/)[1]
+        release, major, minor = version.split(".").map(&:to_i)
+
+        # In PostgreSQL >= 9.2 the column has changed to pid
+        pid_column = major >= 2 ? "pid" : "procpid"
+
+        ActiveRecord::Base.connection.select_all("select * from pg_stat_activity order by #{pid_column};").each do |x|
           if config['database'] == x['datname'] && x['current_query'] == '<IDLE>'
-      ActiveRecord::Base.connection.execute("select pg_terminate_backend(#{x['procpid']})")
+            ActiveRecord::Base.connection.execute("select pg_terminate_backend(#{x[pid_column]})")
           end
         end
         ActiveRecord::Base.establish_connection(config.merge('database' => 'postgres', 'schema_search_path' => 'public'))
@@ -32,7 +39,7 @@ namespace :db do
       end
     end
   end
-  
+
   desc "Recreates and migrates db useful for development"
   task :fresh do
     # We need to keep track of initial RAILS_ENV because db:test:load changes RAILS_ENV to test
