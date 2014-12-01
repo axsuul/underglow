@@ -1,6 +1,7 @@
+# First require capistrano helpers
 require 'underglow/capistrano/helpers'
-require 'underglow/capistrano/deploy'
-require 'underglow/capistrano/deploy/db'
-require 'underglow/capistrano/deploy/rails'
-require 'underglow/capistrano/deploy/rake'
-require 'underglow/capistrano/deploy/unicorn'
+
+# Load all capistrano tasks
+Dir.glob(File.expand_path("../capistrano/tasks/*.rake", __FILE__)).each do |task|
+  load task
+end

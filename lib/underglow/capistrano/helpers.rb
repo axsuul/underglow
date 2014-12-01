@@ -1,26 +1,29 @@
-Capistrano::Configuration.instance.load do
-  # Make sure gem 'capistrano-ext' is installed for this
-  after "multistage:ensure" do
-    set :rails_env, stage
-  end
+require 'active_support'
+require 'active_support/core_ext/object/blank'
 
-  # Run remote command via SSH
-  def run_remote(command)
-    exec "ssh #{stage} -t 'source ~/.profile && #{command}'"
-  end
+require 'pry'
 
-  # Can't use File.exists? because it'll check the local filesystem, not remote
-  def remote_file_exists?(path)
-    'true' == capture("if [ -e #{path} ]; then echo 'true'; fi").strip
-  end
+def remote_file_exists?(path)
+  test("[ -e #{command.options[:in]}/#{path} ]")
+end
 
-  def read_remote_file(path)
-    capture("cat #{path}").strip
-  end
+def capture_remote_file(path)
+  return unless remote_file_exists?(path)
 
-  # Sends kill signal if process is running
-  def kill(process, signal)
-    pidfile_path = "#{shared_path}/pids/#{process}.pid"
-    run "if [ -e #{pidfile_path} ]; then kill -#{signal} `cat #{pidfile_path}` > /dev/null 2>&1; fi"
+  capture(:cat, path).strip
+end
+
+# SSH with pseudo-tty
+def execute_with_tty(*args)
+  exec "ssh #{host.user}@#{host.hostname} -t '#{command(*args).to_command}'"
+end
+
+# Sends kill signal to process is running
+def kill_process(process, signal)
+  within "#{shared_path}/pids" do
+    pid = capture_remote_file("#{process}.pid")
+    # binding.pry
+
+    execute :kill, "-#{signal}", pid unless pid.blank?
   end
 end
