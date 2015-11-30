@@ -22,8 +22,7 @@ end
 def kill_process(process, signal)
   within "#{shared_path}/pids" do
     pid = capture_remote_file("#{process}.pid")
-    # binding.pry
 
-    execute :kill, "-#{signal}", pid unless pid.blank?
+    execute :kill, "-#{signal}", pid, raise_on_non_zero_exit: false unless pid.blank?
   end
 end
