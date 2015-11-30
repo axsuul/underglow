@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "underglow"
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Hu"]
-  s.date = "2014-12-01"
+  s.date = "2015-11-30"
   s.description = "A library that makes life easier."
   s.email = "axsuul@gmail.com"
   s.extra_rdoc_files = [
@@ -47,11 +47,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/axsuul/underglow"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "2.0.14"
+  s.rubygems_version = "1.8.23"
   s.summary = "Vroom yourself."
 
   if s.respond_to? :specification_version then
-    s.specification_version = 4
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activesupport>, [">= 0"])
